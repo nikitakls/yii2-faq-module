@@ -1,0 +1,21 @@
+{
+    "name": "nikitakls/yii2-faq-module",
+    "description": "Yii2 FAQ extension",
+    "type": "yii2-extension",
+    "keywords": ["yii2","extension","faq"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nikita Kolesnikov",
+            "email": "nikitakls@yandex.ru"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "nikitakls\\faq\\": "src"
+        }
+    }
+}
