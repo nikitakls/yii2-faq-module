@@ -5,6 +5,7 @@ namespace nikitakls\faq;
 use nikitakls\markdown\actions\UploadFileAction;
 use nikitakls\markdown\EditorMdWidget;
 use Yii;
+use yii\base\Controller;
 use yii\base\Module as BaseModule;
 use yii\helpers\Url;
 
@@ -20,6 +21,7 @@ class Module extends BaseModule
     ];
 
     public $layoutPath = '@faq/views/backend/layouts';
+
 
     /**
      * @var string The prefix for user module URL.
@@ -38,11 +40,6 @@ class Module extends BaseModule
         '<controller:\w+>/<id:\d+>' => '<controller>/view',
         '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
         '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
-
-        /*'page' => 'public/index',
-        'info' => 'public/search',
-        'news' => 'admin/qa/index',
-        'index' => 'admin/groups/create',*/
     ];
 
     public $isBackend = true;
@@ -162,21 +159,35 @@ class Module extends BaseModule
         parent::init();
     }
 
-    public function getAdminMenuItems()
+    public function getAdminMenuItems($controller = false)
     {
+        if ($controller instanceof Controller) {
+            $isModule = $controller->module->id == $this->id;
+            $controller = $controller->id;
+        } else {
+            $isModule = false;
+            $controller = false;
+        }
+
         if (!$this->isBackend) {
             return [];
         }
         return [
             'label' => 'Faq',
             'icon' => 'support',
+            'active' => $isModule,
             'url' => '#',
             'items' => [
-                ['label' => 'Faq', 'icon' => 'file-code-o', 'url' => ['/faq/answer'],],
-                ['label' => 'Category', 'icon' => 'file-code-o', 'url' => ['/faq/category'],],
-                ['label' => 'Hint', 'icon' => 'file-code-o', 'url' => ['/faq/hint'],],
-                ['label' => 'Page', 'icon' => 'file-code-o', 'url' => ['/faq/page'],],
-                ['label' => 'News', 'icon' => 'file-code-o', 'url' => ['/faq/news'],],
+                ['label' => 'Faq', 'icon' => 'file-code-o',
+                    'url' => ['/faq/answer'], 'active' => $isModule && $controller == 'answer'],
+                ['label' => 'Category', 'icon' => 'file-code-o',
+                    'url' => ['/faq/category'], 'active' => $isModule && $controller == 'category'],
+                ['label' => 'Hint', 'icon' => 'file-code-o',
+                    'url' => ['/faq/hint'], 'active' => $isModule && $controller == 'hint'],
+                ['label' => 'Page', 'icon' => 'file-code-o',
+                    'url' => ['/faq/page'], 'active' => $isModule && $controller == 'page'],
+                ['label' => 'News', 'icon' => 'file-code-o',
+                    'url' => ['/faq/news'], 'active' => $isModule && $controller == 'news'],
             ],
         ];
     }

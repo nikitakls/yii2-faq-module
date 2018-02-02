@@ -1,39 +1,37 @@
 <?php
 
-use nikitakls\faq\helpers\CategoryHelper;
 use nikitakls\faq\helpers\StatusHelper;
+use nikitakls\faq\models\search\CategorySearch;
 use yii\grid\GridView;
 use yii\helpers\Html;
-use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
-/* @var $searchModel nikitakls\faq\models\search\CategorySearch */
+/* @var $searchModel nikitakls\faq\models\search\AnswerSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Categories';
+$this->title = 'Answers';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="category-index">
+<div class="answer-index">
 
     <p>
-        <?= Html::a('Create Category', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Answer', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-    <?php Pjax::begin(); ?>
+
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             'id',
-            'title',
-            'slug',
+            'question',
             [
-                'attribute' => 'icon',
+                'attribute' => 'category_id',
                 'format' => 'raw',
-                'value' => function ($data) {
-                    return '<i class="' . $data->icon . '"></i>';
-                }
+                'filter' => CategorySearch::getFaqLists(),
+                'value' => function ($item) {
+                    return $item->category->title;
+                },
             ],
-
             [
                 'attribute' => 'status',
                 'format' => 'raw',
@@ -42,17 +40,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     return StatusHelper::statusLabel($data->status);
                 }
             ],
-            [
-                'attribute' => 'type',
-                'format' => 'raw',
-                'filter' => CategoryHelper::getList(),
-                'value' => function ($data) {
-                    return CategoryHelper::label($data->type);
-                }
-            ],
+            'created_at:datetime',
+            'updated_at:datetime',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
-    <?php Pjax::end(); ?>
 </div>
