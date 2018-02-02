@@ -14,7 +14,6 @@ class Bootstrap implements BootstrapInterface
 {
     /**
      * @param yii\base\Application $app
-     * @throws yii\base\InvalidConfigException
      */
     public function bootstrap($app)
     {
@@ -33,7 +32,6 @@ class Bootstrap implements BootstrapInterface
             $rule = Yii::createObject($configUrlRule);
             // add rule to urlManager
             $app->urlManager->addRules([$rule], false);
-
         }
     }
 

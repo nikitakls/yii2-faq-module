@@ -2,11 +2,11 @@
 
 namespace nikitakls\faq;
 
+use nikitakls\markdown\actions\UploadFileAction;
 use nikitakls\markdown\EditorMdWidget;
 use Yii;
 use yii\base\Module as BaseModule;
-use yii\base\BootstrapInterface;
-
+use yii\helpers\Url;
 
 class Module extends BaseModule
 {
@@ -30,9 +30,9 @@ class Module extends BaseModule
 
     /** @var array The rules to be used in URL management. */
     public $urlRules = [
-        'answer/index' => 'answer/index',
+        'answer/<action:(create|index|update|delete|view)>' => 'answer/<action>',
         'answer/<slug:[\wd\-]+>' => 'answer/list',
-        'page/index' => 'page/index',
+        'page/<action:(create|index|update|delete|view)>' => 'page/<action>',
         'page/<slug:[\wd\-]+>' => 'page/view',
 
         '<controller:\w+>/<id:\d+>' => '<controller>/view',
@@ -48,10 +48,15 @@ class Module extends BaseModule
     public $isBackend = true;
 
     public $editor = [
-            'class' => EditorMdWidget::class,
+        'class' => EditorMdWidget::class,
+        'options' => [
             'language' => 'ru',
+            'options' => [// html attributes
+                'id' => 'editor-markdown',
+                'class' => 'md-editor'
+            ],
             'clientOptions' => [
-                'height' => '150',
+                'height' => '450',
                 // 'previewTheme' => 'dark',
                 // 'editorTheme' => 'pastel-on-dark',
                 'markdown' => '',
@@ -72,43 +77,71 @@ class Module extends BaseModule
                 'sequenceDiagram' => false,       // support,
                 'imageUpload' => true,
                 'imageFormats' => ['jpg', 'jpeg', 'gif', 'png', 'bmp', 'webp'],
-                'imageUploadURL' => '',
+                'imageUploadURL' => '/default/upload',
                 'toolbarIcons' => [
                     "undo", "redo", "|",
-                    "bold", "del", "italic", "list-ul", "list-ol", "hr", "|",
-                    "code", "code-block", "|",
-                    "image", "table", "link", "|",
+                    "bold", "del", "italic", "quote", "ucwords", "uppercase", "lowercase", "|",
+                    "h1", "h2", "h3", "h4", "h5", "h6", "|",
+                    "list-ul", "list-ol", "hr", "|",
+                    "link", "reference-link", "image", "code", "preformatted-text", "code-block", "table", "datetime",
                     "html-entities", "|",
-                    "preview", "watch", "|",
-                    "help"
+                    "goto-line", "watch", "preview", "fullscreen", "clear", "search", "|",
+                    //"help", "info", "pagebreak", "emoji",
                 ],
             ]
-    ];
+        ],
 
-    protected $filesUploadUrl = '@web/uploads/support';
-    protected $filesUploadDir = '@webroot/uploads/support';
+    ];
 
     public $paths = [
         'backend' => [
             'namespace' => 'nikitakls\faq\controllers\backend',
-            'uploadUrl' => '@web/uploads/faq',
-            'uploadDir' => '@webroot/uploads/faq',
             'layout' => '@faq/views/backend/layouts/main',
             'views' => '@faq/views/backend/',
         ],
         'frontend' => [
             'namespace' => 'nikitakls\faq\controllers\frontend',
-            'uploadUrl' => '@web/uploads/faq',
-            'uploadDir' => '@webroot/uploads/faq',
             'layout' => '@faq/views/frontend/layouts/main',
             'views' => '@faq/views/frontend/',
         ],
+    ];
+
+    public $uploadAction = [
+        'class' => UploadFileAction::class,
+        'url' => '@fileUrl/origin/puzzle/',
+        'path' => '@filePath/origin/puzzle/',
+        'thumbPath' => '@filePath/thumb/puzzle/',
+        'thumbUrl' => '@fileUrl/thumb/puzzle/',
+        'thumbs' => [
+            'puzzle' => [
+                'width' => 480,
+                'height' => 320,
+                'main' => true
+            ],
+        ],
+        'unique' => true,
+        'validatorOptions' => [
+            'maxWidth' => 4000,
+            'maxHeight' => 2000
+        ]
     ];
 
     /**
      * @inheritdoc
      */
     public $controllerNamespace = 'nikitakls\faq\controllers\frontend';
+
+    /**
+     * Translate message
+     * @param $message
+     * @param array $params
+     * @param null $language
+     * @return mixed
+     */
+    public static function translate($message, $params = [], $language = null)
+    {
+        return Yii::t('support', $message, $params, $language);
+    }
 
     public function init()
     {
@@ -117,27 +150,24 @@ class Module extends BaseModule
             '@faq' => __DIR__
         ]);
 
-        if($this->isBackend){
+        if ($this->isBackend) {
             $cfg = $this->paths['backend'];
         } else {
             $cfg = $this->paths['frontend'];
         }
         $this->setViewPath($cfg['views']);
         $this->controllerNamespace = $cfg['namespace'];
-        $this->filesUploadUrl = $cfg['uploadUrl'];
-        $this->filesUploadDir = $cfg['uploadDir'];
         //$this->layout = $cfg['layout'];
 
         parent::init();
     }
 
-
     public function getAdminMenuItems()
     {
-        if(!$this->isBackend){
+        if (!$this->isBackend) {
             return [];
         }
-        return                     [
+        return [
             'label' => 'Faq',
             'icon' => 'support',
             'url' => '#',
@@ -151,28 +181,16 @@ class Module extends BaseModule
         ];
     }
 
-    /**
-     * Translate message
-     * @param $message
-     * @param array $params
-     * @param null $language
-     * @return mixed
-     */
-    public static function t($message, $params = [], $language = null)
+    public function getEditor()
     {
-        return Yii::$app->getModule('faq')->translate($message, $params, $language);
+        $options = $this->editor;
+        $options['options']['clientOptions']['imageUploadURL'] = Url::to('/' . $this->urlPrefix . $options['options']['clientOptions']['imageUploadURL']);
+        return $options;
     }
 
-    /**
-     * Translate message
-     * @param $message
-     * @param array $params
-     * @param null $language
-     * @return mixed
-     */
-    public static function translate($message, $params = [], $language = null)
+    public function getUploadAction()
     {
-        return Yii::t('support', $message, $params, $language);
+        return $this->uploadAction;
     }
 
 }
