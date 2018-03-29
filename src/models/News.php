@@ -2,11 +2,14 @@
 
 namespace nikitakls\faq\models;
 
+use nikitakls\faq\Faq;
 use nikitakls\faq\models\query\NewsQuery;
 use nikitakls\markdown\behaviors\MarkdownModelBehavior;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "{{%faq_news}}".
+ * @author nikitakls
  *
  * @property int $id
  * @property int $category_id
@@ -17,7 +20,7 @@ use nikitakls\markdown\behaviors\MarkdownModelBehavior;
  * @property string $created_at
  * @property int $status
  */
-class News extends \yii\db\ActiveRecord
+class News extends ActiveRecord
 {
     /**
      * @inheritdoc
@@ -55,13 +58,13 @@ class News extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'title' => 'Title',
-            'category_id' => 'Category ID',
-            'content' => 'Content',
-            'updated_at' => 'Update At',
-            'created_at' => 'Create At',
-            'status' => 'Status',
+            'id' => Faq::t('base', 'ID'),
+            'title' => Faq::t('base', 'Title'),
+            'category_id' => Faq::t('base', 'Category'),
+            'content' => Faq::t('base', 'Content'),
+            'updated_at' => Faq::t('base', 'Update'),
+            'created_at' => Faq::t('base', 'Create'),
+            'status' => Faq::t('base', 'Status'),
         ];
     }
 
@@ -71,9 +74,9 @@ class News extends \yii\db\ActiveRecord
     public function behaviors()
     {
         return [
-            TimeBehavior::className(),
+            TimeBehavior::class,
             [
-                'class' => MarkdownModelBehavior::className(),
+                'class' => MarkdownModelBehavior::class,
                 'sourceAttribute' => 'content',
                 'destinationAttribute' => 'clean_content',
             ],
@@ -89,7 +92,9 @@ class News extends \yii\db\ActiveRecord
         return $this->hasOne(Category::class, ['id' => 'category_id']);
     }
 
-
+    /**
+     * @return string
+     */
     public function getContent()
     {
         if (empty($this->clean_content)) {

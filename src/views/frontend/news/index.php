@@ -8,7 +8,7 @@ use yii\widgets\ListView;
 /* @var $searchModel nikitakls\faq\models\search\NewsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'News';
+$this->title = \nikitakls\faq\Faq::t('base', 'News');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="news-index">

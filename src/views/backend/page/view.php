@@ -1,5 +1,6 @@
 <?php
 
+use nikitakls\faq\Faq;
 use nikitakls\faq\helpers\StatusHelper;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
@@ -8,17 +9,17 @@ use yii\widgets\DetailView;
 /* @var $model nikitakls\faq\models\Page */
 
 $this->title = $model->title;
-$this->params['breadcrumbs'][] = ['label' => 'Pages', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Faq::t('base', 'Pages'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="page-view">
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+        <?= Html::a(Faq::t('base', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a(Faq::t('base', 'Delete'), ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => Faq::t('base', 'Are you sure you want to delete this page?'),
                 'method' => 'post',
             ],
         ]) ?>

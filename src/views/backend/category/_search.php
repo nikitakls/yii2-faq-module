@@ -1,10 +1,11 @@
 <?php
 
+use nikitakls\faq\Faq;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model nikitakls\faq\models\CategorySearch */
+/* @var $model \nikitakls\faq\models\search\CategorySearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
@@ -28,8 +29,8 @@ use yii\widgets\ActiveForm;
     <?php // echo $form->field($model, 'type') ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>
+        <?= Html::submitButton(Faq::t('base', 'Search'), ['class' => 'btn btn-primary']) ?>
+        <?= Html::resetButton(Faq::t('base', 'Reset'), ['class' => 'btn btn-default']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

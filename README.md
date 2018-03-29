@@ -27,13 +27,28 @@ yii migrate -p=@nikitakls/faq/migrations
 - **Configure module**
 
 Add module in config file application:
-
+For frontend
 ```php
 'modules'   => [
-    'faq'   => 'nikitakls\faq\Module',
+    'faq'   => 'nikitakls\faq\Faq',
+],
+```
+For backend
+```php
+'modules'   => [
+        'faq' => [
+            'class' => \nikitakls\faq\Faq::class,
+            'isBackend' => true,
+        ],
 ],
 ```
 
 - **Work with Faq Module**
 
+You can add hint widget in you pages
+```php
+    <?= \nikitakls\faq\widgets\Aid::widget([
+            'code' => 'hint-unique-code',
+    ]) ?>
+```
 

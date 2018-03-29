@@ -1,22 +1,25 @@
 <?php
-/**
- * NewsHelper.php
- * User: nikitakls
- * Date: 30.01.18
- * Time: 18:39
- */
 
 namespace nikitakls\faq\helpers;
 
 
+use nikitakls\faq\Faq;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
+/**
+ * StatusHelper
+ * @author  nikitakls
+ */
 class StatusHelper
 {
     const STATUS_DRAFT = 1;
     const STATUS_ACTIVE = 2;
 
+    /**
+     * @param $status
+     * @return string
+     */
     public static function statusLabel($status)
     {
         switch ($status) {
@@ -35,11 +38,14 @@ class StatusHelper
         ]);
     }
 
+    /**
+     * @return array
+     */
     public static function getStatusList()
     {
         return [
-            self::STATUS_ACTIVE => 'Active',
-            self::STATUS_DRAFT => 'Draft',
+            self::STATUS_ACTIVE => Faq::t('base', 'Active'),
+            self::STATUS_DRAFT => Faq::t('base', 'Draft'),
         ];
     }
 

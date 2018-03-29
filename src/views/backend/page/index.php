@@ -1,5 +1,6 @@
 <?php
 
+use nikitakls\faq\Faq;
 use nikitakls\faq\helpers\StatusHelper;
 use nikitakls\faq\models\search\CategorySearch;
 use yii\grid\GridView;
@@ -9,14 +10,14 @@ use yii\helpers\Html;
 /* @var $searchModel nikitakls\faq\models\search\PageSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Pages';
-$this->params['breadcrumbs'][] = ['label' => 'Faq', 'url' => ['/faq']];
+$this->title = Faq::t('base', 'Pages');
+$this->params['breadcrumbs'][] = ['label' => Faq::t('base', 'Faq'), 'url' => ['/faq']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="page-index">
 
     <p>
-        <?= Html::a('Create Page', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Faq::t('base', 'Create page'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([

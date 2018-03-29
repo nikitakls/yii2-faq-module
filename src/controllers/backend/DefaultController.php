@@ -2,12 +2,12 @@
 
 namespace nikitakls\faq\controllers\backend;
 
-use nikitakls\faq\Module;
+use nikitakls\faq\Faq;
 use yii\web\Controller;
 
 /**
  * AnswerController implements the CRUD actions for Answer model.
- * @property Module $module
+ * @property Faq $module
  */
 class DefaultController extends Controller
 {

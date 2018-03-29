@@ -1,16 +1,15 @@
 <?php
-/**
- * NewsHelper.php
- * User: nikitakls
- * Date: 30.01.18
- * Time: 18:39
- */
 
 namespace nikitakls\faq\helpers;
 
-
+use nikitakls\faq\Faq;
 use yii\helpers\ArrayHelper;
 
+/**
+ * Class CategoryHelper
+ * @package nikitakls\faq\helpers
+ * @author  nikitakls
+ */
 class CategoryHelper
 {
     const TYPE_FAQ = 10;
@@ -18,19 +17,25 @@ class CategoryHelper
     const TYPE_PAGE = 30;
     const TYPE_NEWS = 40;
 
+    /**
+     * @param int $status
+     * @return mixed
+     */
     public static function label($status)
     {
-
         return ArrayHelper::getValue(self::getList(), $status);
     }
 
+    /**
+     * @return array
+     */
     public static function getList()
     {
         return [
-            self::TYPE_FAQ => 'Faq',
-            self::TYPE_HINT => 'Hint',
-            self::TYPE_PAGE => 'Page',
-            self::TYPE_NEWS => 'News',
+            self::TYPE_FAQ => Faq::t('base', 'Faq'),
+            self::TYPE_HINT => Faq::t('base', 'Hint'),
+            self::TYPE_PAGE => Faq::t('base', 'Page'),
+            self::TYPE_NEWS => Faq::t('base', 'News'),
         ];
     }
 

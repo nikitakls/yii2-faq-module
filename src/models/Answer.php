@@ -2,11 +2,14 @@
 
 namespace nikitakls\faq\models;
 
+use nikitakls\faq\Faq;
 use nikitakls\faq\models\query\AnswerQuery;
 use nikitakls\markdown\behaviors\MarkdownModelBehavior;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "{{%faq_answer}}".
+ * @author nikitakls
  *
  * @property int $id
  * @property int $category_id
@@ -17,7 +20,7 @@ use nikitakls\markdown\behaviors\MarkdownModelBehavior;
  * @property int $created_at
  * @property int $updated_at
  */
-class Answer extends \yii\db\ActiveRecord
+class Answer extends ActiveRecord
 {
     /**
      * @inheritdoc
@@ -56,13 +59,13 @@ class Answer extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'category_id' => 'Category ID',
-            'question' => 'Question',
-            'answer' => 'Answer',
-            'clean_answer' => 'Clean Answer',
-            'status' => 'Status',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'category_id' => Faq::t('base', 'Category'),
+            'question' => Faq::t('base', 'Question'),
+            'answer' => Faq::t('base', 'Answer'),
+            'clean_answer' => Faq::t('base', 'Answer'),
+            'status' => Faq::t('base', 'Status'),
+            'created_at' => Faq::t('base', 'Created'),
+            'updated_at' => Faq::t('base', 'Updated'),
         ];
     }
 
@@ -80,9 +83,9 @@ class Answer extends \yii\db\ActiveRecord
     public function behaviors()
     {
         return [
-            TimeBehavior::className(),
+            TimeBehavior::class,
             [
-                'class' => MarkdownModelBehavior::className(),
+                'class' => MarkdownModelBehavior::class,
                 'sourceAttribute' => 'answer',
                 'destinationAttribute' => 'clean_answer',
             ],

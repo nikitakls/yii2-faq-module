@@ -2,11 +2,14 @@
 
 namespace nikitakls\faq\models;
 
+use nikitakls\faq\Faq;
 use nikitakls\faq\models\query\CategoryQuery;
+use yii\db\ActiveRecord;
 use Zelenin\yii\behaviors\Slug;
 
 /**
  * This is the model class for table "{{%faq_category}}".
+ * @author nikitakls
  *
  * @property int $id
  * @property string $title
@@ -15,7 +18,7 @@ use Zelenin\yii\behaviors\Slug;
  * @property int $status
  * @property int $type
  */
-class Category extends \yii\db\ActiveRecord
+class Category extends ActiveRecord
 {
     /**
      * @inheritdoc
@@ -50,7 +53,7 @@ class Category extends \yii\db\ActiveRecord
     {
         return [
             [
-                'class' => Slug::className(),
+                'class' => Slug::class,
                 'slugAttribute' => 'slug',
                 'attribute' => 'title',
                 // optional params
@@ -70,16 +73,17 @@ class Category extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'title' => 'Title',
-            'slug' => 'Slug',
-            'icon' => 'Icon',
-            'status' => 'Status',
-            'type' => 'Type',
+            'id' => Faq::t('base', 'ID'),
+            'title' => Faq::t('base', 'Title'),
+            'slug' => Faq::t('base', 'Slug'),
+            'icon' => Faq::t('base', 'Icon'),
+            'status' => Faq::t('base', 'Status'),
+            'type' => Faq::t('base', 'Type'),
         ];
     }
 
-    public function create(){
+    public function create()
+    {
         return true;
     }
 }

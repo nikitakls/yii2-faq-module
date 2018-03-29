@@ -8,6 +8,7 @@ use yii\data\ActiveDataProvider;
 
 /**
  * PageSearch represents the model behind the search form of `nikitakls\faq\models\Page`.
+ * @author nikitakls
  */
 class PageSearch extends Page
 {
@@ -76,6 +77,7 @@ class PageSearch extends Page
      * Get page by slug
      *
      * @param string $slug
+     * @param bool $active
      *
      * @return Page
      */

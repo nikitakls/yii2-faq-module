@@ -1,5 +1,6 @@
 <?php
 
+use nikitakls\faq\Faq;
 use yii\helpers\Html;
 use yii\widgets\Pjax;
 
@@ -9,7 +10,7 @@ use yii\widgets\Pjax;
 /* @var $categories \nikitakls\faq\models\Category[] */
 /* @var $category \nikitakls\faq\models\Category */
 
-$this->title = 'Answers - ' . Html::encode($category->title);
+$this->title = Faq::t('base', 'Answers') . ' - ' . Html::encode($category->title);
 $this->params['breadcrumbs'][] = $category->title;
 ?>
 <div class="answer-index">

@@ -1,5 +1,6 @@
 <?php
 
+use nikitakls\faq\Faq;
 use nikitakls\faq\helpers\StatusHelper;
 use nikitakls\faq\models\search\CategorySearch;
 use yii\helpers\Html;
@@ -26,7 +27,7 @@ $editor = \Yii::$app->getModule('faq')->getEditor();
     <?= $form->field($model, 'status')->dropDownList(StatusHelper::getStatusList(), ['prompt' => ' -- ']) ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton(Faq::t('base', 'Save'), ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

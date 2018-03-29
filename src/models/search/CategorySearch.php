@@ -9,9 +9,14 @@ use yii\data\ActiveDataProvider;
 
 /**
  * CategorySearch represents the model behind the search form of `nikitakls\faq\models\Category`.
+ * @author nikitakls
  */
 class CategorySearch extends Category
 {
+    /**
+     * @param bool $asArray
+     * @return array
+     */
     public static function getHintLists($asArray = true)
     {
         return self::getList(CategoryHelper::TYPE_HINT, $asArray);
@@ -19,6 +24,7 @@ class CategorySearch extends Category
 
     /**
      * @param integer $type
+     * @param bool $asArray
      * @return array
      */
     public static function getList($type, $asArray = true)
@@ -42,22 +48,37 @@ class CategorySearch extends Category
         return $result;
     }
 
+    /**
+     * @param bool $asArray
+     * @return array
+     */
     public static function getNewsLists($asArray = true)
     {
         return self::getList(CategoryHelper::TYPE_NEWS, $asArray);
     }
 
+    /**
+     * @param bool $asArray
+     * @return array
+     */
     public static function getFaqLists($asArray = true)
     {
         return self::getList(CategoryHelper::TYPE_FAQ, $asArray);
     }
 
+    /**
+     * @param bool $asArray
+     * @return array
+     */
     public static function getPageLists($asArray = true)
     {
         return self::getList(CategoryHelper::TYPE_PAGE, $asArray);
     }
 
-    /** @return Category */
+    /**
+     * @param string $slug
+     * @return array|Category|null
+     */
     public static function getCategoryBySlug($slug)
     {
         return Category::find()->where([

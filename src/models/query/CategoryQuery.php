@@ -2,19 +2,25 @@
 
 namespace nikitakls\faq\models\query;
 
+use nikitakls\faq\helpers\StatusHelper;
 use nikitakls\faq\models\Category;
+use yii\db\ActiveQuery;
 
 /**
  * This is the ActiveQuery class for [[Category]].
+ * @author nikitakls
  *
  * @see Category
  */
-class CategoryQuery extends \yii\db\ActiveQuery
+class CategoryQuery extends ActiveQuery
 {
-    /*public function active()
+    /**
+     * @return $this
+     */
+    public function active()
     {
-        return $this->andWhere('[[status]]=1');
-    }*/
+        return $this->andWhere(['status' => StatusHelper::STATUS_ACTIVE]);
+    }
 
     /**
      * @inheritdoc

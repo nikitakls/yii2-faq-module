@@ -10,6 +10,7 @@ use yii\web\NotFoundHttpException;
 
 /**
  * NewstController implements the CRUD actions for News model.
+ * @author nikitakls
  */
 class NewsController extends Controller
 {

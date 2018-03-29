@@ -8,6 +8,7 @@ use yii\data\ActiveDataProvider;
 
 /**
  * AnswerSearch represents the model behind the search form of `nikitakls\faq\models\Answer`.
+ * @author nikitakls
  */
 class AnswerSearch extends Answer
 {
@@ -35,6 +36,7 @@ class AnswerSearch extends Answer
      * Creates data provider instance with search query applied
      *
      * @param array $params
+     * @param int|null $categoryId
      * @return Answer[]
      */
     public function search($params, $categoryId = null)

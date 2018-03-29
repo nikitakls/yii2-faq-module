@@ -11,6 +11,7 @@ use yii\web\NotFoundHttpException;
 
 /**
  * CategoryController implements the CRUD actions for Category model.
+ * @author nikitakls
  */
 class CategoryController extends Controller
 {
@@ -21,7 +22,7 @@ class CategoryController extends Controller
     {
         return [
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
                 ],
@@ -83,7 +84,7 @@ class CategoryController extends Controller
         $model = new Category();
         $model->icon = 'glyphicon glyphicon-th';
 
-        if ($model->load(Yii::$app->request->post()) &&  $model->create() && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->create() && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 

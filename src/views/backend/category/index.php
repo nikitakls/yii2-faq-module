@@ -1,5 +1,6 @@
 <?php
 
+use nikitakls\faq\Faq;
 use nikitakls\faq\helpers\CategoryHelper;
 use nikitakls\faq\helpers\StatusHelper;
 use yii\grid\GridView;
@@ -10,13 +11,13 @@ use yii\widgets\Pjax;
 /* @var $searchModel nikitakls\faq\models\search\CategorySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Categories';
+$this->title = Faq::t('base', 'Categories');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="category-index">
 
     <p>
-        <?= Html::a('Create Category', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Faq::t('base', 'Create category'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <?php Pjax::begin(); ?>
     <?= GridView::widget([

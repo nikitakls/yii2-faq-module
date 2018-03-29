@@ -4,7 +4,6 @@ namespace nikitakls\faq;
 
 use Yii;
 use yii\base\BootstrapInterface;
-use yii\console\Application as ConsoleApplication;
 
 /**
  * Bootstrap class registers module and user application component. It also creates some url rules which will be applied
@@ -17,7 +16,7 @@ class Bootstrap implements BootstrapInterface
      */
     public function bootstrap($app)
     {
-        if (!$app instanceof ConsoleApplication) {
+        /*if (!$app instanceof ConsoleApplication) {
             // get module 'faq'
             $module = $app->getModule('faq');
 
@@ -32,7 +31,7 @@ class Bootstrap implements BootstrapInterface
             $rule = Yii::createObject($configUrlRule);
             // add rule to urlManager
             $app->urlManager->addRules([$rule], false);
-        }
+        }*/
     }
 
 }

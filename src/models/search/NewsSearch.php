@@ -8,6 +8,7 @@ use yii\data\ActiveDataProvider;
 
 /**
  * NewsSearch represents the model behind the search form of `nikitakls\faq\models\News`.
+ * @author nikitakls
  */
 class NewsSearch extends News
 {

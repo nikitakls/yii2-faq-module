@@ -2,12 +2,15 @@
 
 namespace nikitakls\faq\models;
 
+use nikitakls\faq\Faq;
 use nikitakls\faq\models\query\PageQuery;
 use nikitakls\markdown\behaviors\MarkdownModelBehavior;
+use yii\db\ActiveRecord;
 use Zelenin\yii\behaviors\Slug;
 
 /**
  * This is the model class for table "{{%faq_page}}".
+ * @author nikitakls
  *
  * @property int $id
  * @property int $category_id
@@ -19,7 +22,7 @@ use Zelenin\yii\behaviors\Slug;
  * @property int $created_at
  * @property int $updated_at
  */
-class Page extends \yii\db\ActiveRecord
+class Page extends ActiveRecord
 {
     public $titleSlug;
 
@@ -59,13 +62,13 @@ class Page extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'category_id' => 'Category ID',
-            'content' => 'Content',
-            'clean_content' => 'Clean Content',
-            'status' => 'Status',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'id' => Faq::t('base', 'ID'),
+            'category_id' => Faq::t('base', 'Category'),
+            'content' => Faq::t('base', 'Content'),
+            'clean_content' => Faq::t('base', 'Content'),
+            'status' => Faq::t('base', 'Status'),
+            'created_at' => Faq::t('base', 'Created'),
+            'updated_at' => Faq::t('base', 'Updated'),
         ];
     }
 
@@ -74,7 +77,7 @@ class Page extends \yii\db\ActiveRecord
     {
         return [
             [
-                'class' => Slug::className(),
+                'class' => Slug::class,
                 'slugAttribute' => 'titleSlug',
                 'attribute' => 'title',
                 // optional params
@@ -85,9 +88,9 @@ class Page extends \yii\db\ActiveRecord
                 // If intl extension is enabled, see http://userguide.icu-project.org/transforms/general.
                 'transliterateOptions' => 'Russian-Latin/BGN; Any-Latin; Latin-ASCII; NFD; [:Nonspacing Mark:] Remove; NFC;'
             ],
-            TimeBehavior::className(),
+            TimeBehavior::class,
             [
-                'class' => MarkdownModelBehavior::className(),
+                'class' => MarkdownModelBehavior::class,
                 'sourceAttribute' => 'content',
                 'destinationAttribute' => 'clean_content',
             ],
@@ -102,6 +105,9 @@ class Page extends \yii\db\ActiveRecord
         return $this->hasOne(Category::class, ['id' => 'category_id']);
     }
 
+    /**
+     * @return bool
+     */
     public function beforeValidate()
     {
         if (empty($this->getAttribute('slug'))) {
@@ -110,6 +116,9 @@ class Page extends \yii\db\ActiveRecord
         return true;
     }
 
+    /**
+     * @return string
+     */
     public function getContent()
     {
         if (empty($this->clean_content)) {

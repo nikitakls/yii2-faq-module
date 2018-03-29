@@ -6,10 +6,10 @@ use nikitakls\markdown\actions\UploadFileAction;
 use nikitakls\markdown\EditorMdWidget;
 use Yii;
 use yii\base\Controller;
-use yii\base\Module as BaseModule;
+use yii\base\Module;
 use yii\helpers\Url;
 
-class Module extends BaseModule
+class Faq extends Module
 {
     const VERSION = '0.0.1';
 
@@ -137,7 +137,7 @@ class Module extends BaseModule
      */
     public static function translate($message, $params = [], $language = null)
     {
-        return Yii::t('support', $message, $params, $language);
+        return Yii::t('faq', $message, $params, $language);
     }
 
     public function init()
@@ -155,10 +155,26 @@ class Module extends BaseModule
         $this->setViewPath($cfg['views']);
         $this->controllerNamespace = $cfg['namespace'];
         //$this->layout = $cfg['layout'];
-
+        $this->registerTranslations();
         parent::init();
     }
 
+    public function registerTranslations()
+    {
+        \Yii::$app->i18n->translations['faq.*'] = [
+            'class' => 'yii\i18n\PhpMessageSource',
+            'sourceLanguage' => 'en-US',
+            'basePath' => __DIR__ . '/messages',
+            'fileMap' => [
+                'faq.base' => 'base.php',
+            ],
+        ];
+    }
+
+    /**
+     * @param bool $controller
+     * @return array
+     */
     public function getAdminMenuItems($controller = false)
     {
         if ($controller instanceof Controller) {
@@ -173,25 +189,40 @@ class Module extends BaseModule
             return [];
         }
         return [
-            'label' => 'Faq',
+            'label' => self::t('base', 'Faq'),
             'icon' => 'support',
             'active' => $isModule,
             'url' => '#',
             'items' => [
-                ['label' => 'Faq', 'icon' => 'file-code-o',
+                ['label' => self::t('base', 'Answers'), 'icon' => 'file-code-o',
                     'url' => ['/faq/answer'], 'active' => $isModule && $controller == 'answer'],
-                ['label' => 'Category', 'icon' => 'file-code-o',
+                ['label' => self::t('base', 'Categories'), 'icon' => 'file-code-o',
                     'url' => ['/faq/category'], 'active' => $isModule && $controller == 'category'],
-                ['label' => 'Hint', 'icon' => 'file-code-o',
+                ['label' => self::t('base', 'Hints'), 'icon' => 'file-code-o',
                     'url' => ['/faq/hint'], 'active' => $isModule && $controller == 'hint'],
-                ['label' => 'Page', 'icon' => 'file-code-o',
+                ['label' => self::t('base', 'Pages'), 'icon' => 'file-code-o',
                     'url' => ['/faq/page'], 'active' => $isModule && $controller == 'page'],
-                ['label' => 'News', 'icon' => 'file-code-o',
+                ['label' => self::t('base', 'News'), 'icon' => 'file-code-o',
                     'url' => ['/faq/news'], 'active' => $isModule && $controller == 'news'],
             ],
         ];
     }
 
+    /**
+     * @param $category
+     * @param $message
+     * @param array $params
+     * @param null $language
+     * @return string
+     */
+    public static function t($category, $message, $params = [], $language = null)
+    {
+        return Yii::t('faq.' . $category, $message, $params, $language);
+    }
+
+    /**
+     * @return array
+     */
     public function getEditor()
     {
         $options = $this->editor;
@@ -199,6 +230,10 @@ class Module extends BaseModule
         return $options;
     }
 
+    /**
+     * Return config for uploader
+     * @return array
+     */
     public function getUploadAction()
     {
         return $this->uploadAction;
